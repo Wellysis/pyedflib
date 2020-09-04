@@ -136,9 +136,8 @@ def phys2dig(signal, dmin, dmax, pmin, pmax):
 
 
 
-def make_header(technician='', recording_additional='', patientname='',
-                patient_additional='', patientcode= '', equipment= '',
-                admincode= '', gender= '', startdate=None, birthdate= ''):
+def make_header(patientname='', patient_additional='', patientcode= '', 
+                equipment= '', admincode= '', gender= '', startdate=None, birthdate= ''):
     """
     A convenience function to create an EDF header (a dictionary) that
     can be used by pyedflib to update the main header of the EDF
@@ -194,7 +193,7 @@ def make_header(technician='', recording_additional='', patientname='',
 
 def make_signal_header(label, dimension='uV', sample_rate=256,
                        physical_min=-200, physical_max=200, digital_min=-32768,
-                       digital_max=32767, transducer='', prefiler=''):
+                       digital_max=32767):
     """
     A convenience function that creates a signal header for a given signal.
     This can be used to create a list of signal headers that is used by
@@ -235,15 +234,13 @@ def make_signal_header(label, dimension='uV', sample_rate=256,
                'physical_min': physical_min,
                'physical_max': physical_max,
                'digital_min':  digital_min,
-               'digital_max':  digital_max,
-               'transducer': transducer,
-               'prefilter': prefiler}
+               'digital_max':  digital_max}
     return signal_header
 
 
 def make_signal_headers(list_of_labels, dimension='uV', sample_rate=256,
                        physical_min=-200, physical_max=200, digital_min=-32768,
-                       digital_max=32767, transducer='', prefiler=''):
+                       digital_max=32767):
     """
     A function that creates signal headers for a given list of channel labels.
     This can only be used if each channel has the same sampling frequency
@@ -279,8 +276,7 @@ def make_signal_headers(list_of_labels, dimension='uV', sample_rate=256,
     for label in list_of_labels:
         header = make_signal_header(label, dimension=dimension, sample_rate=sample_rate,
                                     physical_min=physical_min, physical_max=physical_max,
-                                    digital_min=digital_min, digital_max=digital_max,
-                                    transducer=transducer, prefiler=prefiler)
+                                    digital_min=digital_min, digital_max=digital_max)
         signal_headers.append(header)
     return signal_headers
 

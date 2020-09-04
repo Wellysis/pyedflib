@@ -174,15 +174,15 @@ class EdfWriter(object):
             set_digital_minimum(self.handle, i, self.channels[i]['digital_min'])
             set_label(self.handle, i, du(self.channels[i]['label']))
             set_physical_dimension(self.handle, i, du(self.channels[i]['dimension']))
-            set_transducer(self.handle, i, du(self.channels[i]['transducer']))
-            set_prefilter(self.handle, i, du(self.channels[i]['prefilter']))
+            # set_transducer(self.handle, i, du(self.channels[i]['transducer']))
+            # set_prefilter(self.handle, i, du(self.channels[i]['prefilter']))
 
     def setHeader(self, fileHeader):
         """
         Sets the file header
         """
-        self.technician = fileHeader["technician"]
-        self.recording_additional = fileHeader["recording_additional"]
+        # self.technician = fileHeader["technician"]
+        # self.recording_additional = fileHeader["recording_additional"]
         self.patient_name = fileHeader["patientname"]
         self.patient_additional = fileHeader["patient_additional"]
         self.patient_code = fileHeader["patientcode"]

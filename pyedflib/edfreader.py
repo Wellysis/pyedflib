@@ -95,8 +95,7 @@ class EdfReader(CyEdfReader):
         ----------
         None
         """
-        return {"technician": self.getTechnician(), "recording_additional": self.getRecordingAdditional(),
-                "patientname": self.getPatientName(), "patient_additional": self.getPatientAdditional(),
+        return {"patientname": self.getPatientName(), "patient_additional": self.getPatientAdditional(),
                 "patientcode": self.getPatientCode(), "equipment": self.getEquipment(),
                 "admincode": self.getAdmincode(), "gender": self.getGender(), "startdate": self.getStartdatetime(),
                 "birthdate": self.getBirthdate()}
@@ -111,13 +110,11 @@ class EdfReader(CyEdfReader):
         """
         return {'label': self.getLabel(chn),
                 'dimension': self.getPhysicalDimension(chn),
-                                 'sample_rate': self.getSampleFrequency(chn),
+                'sample_rate': self.getSampleFrequency(chn),
                 'physical_max':self.getPhysicalMaximum(chn),
                 'physical_min': self.getPhysicalMinimum(chn),
                 'digital_max': self.getDigitalMaximum(chn),
-                'digital_min': self.getDigitalMinimum(chn),
-                'prefilter':self.getPrefilter(chn),
-                'transducer': self.getTransducer(chn)}
+                'digital_min': self.getDigitalMinimum(chn)}
 
     def getSignalHeaders(self):
         """
