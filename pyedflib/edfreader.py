@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2019 - 2020 Simon Kern
-# Copyright (c) 2015 - 2020 Holger Nahrstaedt
+# Copyright (c) 2015 - 2017 Holger Nahrstaedt
 # Copyright (c) 2011, 2015, Chris Lee-Messer
 # Copyright (c) 2016-2017 The pyedflib Developers
 #                         <https://github.com/holgern/pyedflib>
 # See LICENSE for license details.
 
+from __future__ import division, print_function, absolute_import
 from datetime import datetime
 import numpy as np
 
@@ -82,7 +82,15 @@ class EdfReader(CyEdfReader):
         return result
 
     def _convert_string(self,s):
-        if isinstance(s, bytes):
+        UNICODE_EXISTS = False
+        try:
+            UNICODE_EXISTS = bool(type(unicode))
+        except NameError:
+            # unicode = lambda s: str(s)
+            UNICODE_EXISTS = False
+        if UNICODE_EXISTS:
+            return unicode(s, "utf-8")
+        elif isinstance(s, bytes):
             return s.decode("latin")
         else:
             return s.decode("utf-8", "strict")
@@ -95,7 +103,7 @@ class EdfReader(CyEdfReader):
         ----------
         None
         """
-        return {"patientname": self.getPatientName(), "patient_additional": self.getPatientAdditional(),
+        return {"patientname": self.getPatientName(),"patient_additional": self.getPatientAdditional(), 
                 "patientcode": self.getPatientCode(), "equipment": self.getEquipment(),
                 "admincode": self.getAdmincode(), "gender": self.getGender(), "startdate": self.getStartdatetime(),
                 "birthdate": self.getBirthdate()}
@@ -115,6 +123,8 @@ class EdfReader(CyEdfReader):
                 'physical_min': self.getPhysicalMinimum(chn),
                 'digital_max': self.getDigitalMaximum(chn),
                 'digital_min': self.getDigitalMinimum(chn)}
+                # 'prefilter':self.getPrefilter(chn),
+                # 'transducer': self.getTransducer(chn)}
 
     def getSignalHeaders(self):
         """
@@ -317,11 +327,8 @@ class EdfReader(CyEdfReader):
         >>> f.close()
 
         """
-        # denoted as long long in nanoseconds, we need to transfer it to microsecond
-        subsecond = np.round(self.starttime_subsecond/100).astype(int)
         return datetime(self.startdate_year, self.startdate_month, self.startdate_day,
-                                 self.starttime_hour, self.starttime_minute, self.starttime_second,
-                                 subsecond)
+                                 self.starttime_hour, self.starttime_minute, self.starttime_second)
 
     def getBirthdate(self, string=True):
         """
